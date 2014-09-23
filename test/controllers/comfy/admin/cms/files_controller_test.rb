@@ -34,7 +34,7 @@ class Comfy::Admin::Cms::FilesControllerTest < ActionController::TestCase
     file.update_column(:block_id, comfy_cms_blocks(:default_field_text).id)
     get :index, :site_id => @site
     assert_response :success
-    assert_equal 0, assigns(:files).count
+    assert_equal 1, assigns(:files).count
   end
 
   def test_get_index_with_redactor_images
@@ -51,16 +51,22 @@ class Comfy::Admin::Cms::FilesControllerTest < ActionController::TestCase
   end
 
   def test_get_index_with_redactor_files
-    file = comfy_cms_files(:default)
+    file1 = comfy_cms_files(:default)
+    file2 = comfy_cms_files(:css)
 
     get :index, :site_id => @site, :source => 'redactor', :type => 'file'
     assert_response :success
 
     assert_equal [{
-      'title' => file.label,
-      'name'  => file.file_file_name,
-      'link'  => file.file.url,
+      'title' => file1.label,
+      'name'  => file1.file_file_name,
+      'link'  => file1.file.url,
       'size'  => '19.6 KB'
+    }, {
+      'title' => file2.label,
+      'name'  => file2.file_file_name,
+      'link'  => file2.file.url,
+      'size'  => '4.71 KB'
     }], JSON.parse(response.body)
   end
 
