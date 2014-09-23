@@ -71,7 +71,7 @@ class FixtureFilesTest < ActiveSupport::TestCase
     old_file = comfy_cms_files(:default)
     old_file.update_column(:file_file_name, 'old')
 
-    assert_no_difference 'Comfy::Cms::File.count' do
+    assert_difference 'Comfy::Cms::File.count', -1 do
       ComfortableMexicanSofa::Fixture::File::Importer.new('sample-site', 'default-site').import!
       assert file = Comfy::Cms::File.last
       assert_equal 'sample.jpg',          file.file_file_name

@@ -7,3 +7,13 @@ default:
   file_file_size: 20099
   description: Default Description
   position: 0
+
+css:
+  site: default
+  block:
+  label: CSS File
+  file_file_name: file.css
+  file_content_type: text/css
+  file_file_size: 4826
+  description: Default Description
+  position: 0
