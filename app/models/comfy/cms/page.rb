@@ -76,12 +76,6 @@ class Comfy::Cms::Page < ActiveRecord::Base
     Comfy::Cms::Drops::PageDrop.new(self)
   end
 
-
-  # TODO: Remove!
-  def content_cache
-    self.render
-  end
-
 protected
 
   def assigns_label
