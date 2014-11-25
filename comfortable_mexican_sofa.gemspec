@@ -35,4 +35,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'tinymce-rails',     '>= 4.0.0'
   s.add_dependency 'bootstrap-sass',    '>= 3.2.0'
   s.add_dependency 'plupload-rails',    '>= 1.2.1'
+  s.add_dependency 'liquid',            '>= 3.0.0'
 end
