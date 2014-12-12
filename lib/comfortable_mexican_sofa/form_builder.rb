@@ -1,35 +1,26 @@
 class ComfortableMexicanSofa::FormBuilder < BootstrapForm::FormBuilder
-
   def field_name_for(tag)
     tag.blockable.class.name.demodulize.underscore.gsub(/\//,'_')
   end
 
   # -- Tag Field Fields -----------------------------------------------------
   def default_tag_field(tag, index, method = :text_field_tag, options = {})
-
     label       = tag.blockable.class.human_attribute_name(tag.identifier.to_s)
-    css_class   = tag.class.to_s.demodulize.underscore
     content     = ''
     fieldname   = field_name_for(tag)
     case method
     when :file_field_tag
-      input_params = {:id => nil}
       name = "#{fieldname}[blocks_attributes][#{index}][content]"
 
-      if options.delete(:multiple)
-        input_params.merge!(:multiple => true)
-        name << '[]'
-      end
-
-      content << @template.send(method, name, input_params)
-      content << @template.render(:partial => 'comfy/admin/cms/files/page_form', :object => tag.block)
+      content << @template.hidden_field_tag(name, tag.serialize_content)
+      content << @template.render(:partial => 'comfy/admin/cms/files/page_form', :object => tag.block, :locals => { :fieldname => name })
     else
       options[:class] = ' form-control'
       content << @template.send(method, "#{fieldname}[blocks_attributes][#{index}][content]", tag.content, options)
     end
     content << @template.hidden_field_tag("#{fieldname}[blocks_attributes][#{index}][identifier]", tag.identifier, :id => nil)
 
-    form_group :label => {:text => label} do 
+    form_group :label => {:text => label} do
       content.html_safe
     end
   end
@@ -59,7 +50,7 @@ class ComfortableMexicanSofa::FormBuilder < BootstrapForm::FormBuilder
     content = @template.hidden_field_tag("#{fieldname}[blocks_attributes][#{index}][content]", '', :id => nil)
     content << @template.check_box_tag("#{fieldname}[blocks_attributes][#{index}][content]", '1', tag.content.present?, :id => nil)
     content << @template.hidden_field_tag("#{fieldname}[blocks_attributes][#{index}][identifier]", tag.identifier, :id => nil)
-    form_group :label => {:text => (tag.blockable.class.human_attribute_name(tag.identifier.to_s) || tag.identifier.titleize + "?")} do 
+    form_group :label => {:text => (tag.blockable.class.human_attribute_name(tag.identifier.to_s) || tag.identifier.titleize + "?")} do
       content
     end
   end

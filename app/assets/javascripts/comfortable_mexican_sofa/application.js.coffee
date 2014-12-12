@@ -14,6 +14,7 @@
 #= require comfortable_mexican_sofa/lib/bootstrap-datetimepicker
 #= require comfortable_mexican_sofa/lib/diff
 #= require comfortable_mexican_sofa/cms/uploader
+#= require comfortable_mexican_sofa/cms/files_library
 #= require comfortable_mexican_sofa/cms/files
 
 window.CMS ||= {}
@@ -148,20 +149,3 @@ window.CMS.categories = ->
     $('.categories.editable', '.categories-widget').toggle()
     $('.edit', '.categories-widget').toggle()
     $('.done', '.categories-widget').toggle()
-
-
-# If we are inside an iframe remove the columns and just keep the center column content.
-# This is used for the files widget that opens in a modal window.
-window.CMS.set_iframe_layout = ->
-  in_iframe = ->
-    try
-      return window.self != window.top
-    catch e
-      return true
-
-  $('body').ready ->
-    if in_iframe()
-      $('body').addClass('in-iframe')
-
-# Triggering this right away to prevent flicker
-window.CMS.set_iframe_layout()
