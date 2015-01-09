@@ -5,7 +5,7 @@ class window.CMS.FilesLibrary
     @modal = $('.cms-files-modal')
     @mode = 'browse' # The other mode is 'select' which will show a select button next to each file.
     @onSelect = undefined # A string with a method name that is called when the library is in select mode and a file was selected
-    @openEvent = undefined
+    @options = undefined # Library options given via the open method. This is also passed to the +onSelect+ callback method.
 
     @modal.on 'show.bs.modal', =>
       @_onOpen()
@@ -20,17 +20,16 @@ class window.CMS.FilesLibrary
       e.preventDefault()
 
   open: (options, event) ->
+    @options = options
     @mode = options.mode || 'browse'
     @onSelect = options.onSelect
-    @openEvent = event
     @modal.modal('show')
 
   close: ->
     @modal.modal('hide')
 
   selectFile: (file) ->
-    elm = $(@openEvent.target) if @openEvent
-    window[@onSelect](file, elm) if @onSelect
+    window[@onSelect](file, @options) if @onSelect
     @close()
 
   _onOpen: ->

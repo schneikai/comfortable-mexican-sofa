@@ -4,6 +4,9 @@ window.CMS.files = ->
   window.CMS.filesLibrary = new window.CMS.FilesLibrary
 
   # Open the files library.
+  # Data attributes on the link are settings for the files library such as the
+  # mode or the callback when selecting files. For example:
+  #   data: { mode: 'select', fieldName: 'fieldname', onSelect: 'selectCmsPageFile' }
   $(document).on 'click', '.cms-files-open', (e) ->
     window.CMS.filesLibrary.open($(this).data(), e)
     e.preventDefault()
@@ -30,29 +33,36 @@ window.CMS.files = ->
     e.preventDefault()
 
 
-# This method is called when the files library is in select mode and a file was selected.
+# This method is called when a page file was selected from the files library.
 # file: fileId, fileLabel, fileUrl, file_thumbnail, fileIsImage
-# elm: jQuery object of the element that was clicked to open the files library (aka browse button)
-window.selectCMSPageFile = (file, elm) ->
-  $("input[name='" + elm.data('fieldName') + "']").val(file.fileId)
+# options: a hash with options from the files library open method
+window.selectCmsPageFile = (file, options) ->
+  field = $('input[name="' + options.fieldName + '"]')
+  fileList = field.closest('.page-files')
 
-  fileList = elm.closest('.page-files')
+  field.val(file.fileId)
 
   entry = fileList.find('.page-file').first().clone()
-  entry.attr('id', entry.attr('id') + file.fileId)
+  entry.attr('id', entry.attr('id') + '_' + file.fileId)
   entry.find('.thumbnail').attr('href', file.fileUrl)
   entry.find('.thumbnail img').attr('src', file.fileThumbnail) if file.fileIsImage
   entry.find('.file-label').text(file.fileLabel)
-  entry.find('.cms-files-open').data(elm.data())
-  entry.find('.cms-page-file-delete').data('fieldName', elm.data('fieldName'))
+  entry.find('.cms-files-open').data('currentPageFile', entry.attr('id'))
 
   # The browse button is either a "replace the current file" or a "add a new file" button...
-  if elm.parent().hasClass('page-file')
-    elm.parent().replaceWith entry.show()
+  if options.currentPageFile
+    fileList.find('#' + options.currentPageFile).replaceWith(entry.show())
   else
     fileList.append entry.fadeIn('slow')
 
   fileList.find('> .cms-files-open').hide()
+
+
+# This method is called when a file was selected via the TinyMCE file browser.
+# file: fileId, fileLabel, fileUrl, file_thumbnail, fileIsImage
+# options: a hash with options from the files library open method
+window.selectCmsTinymceFile = (file, options) ->
+  $('input#' + options.fieldId).val(file.fileUrl)
 
 
 # When the files library is opened in a modal window we need to remove the

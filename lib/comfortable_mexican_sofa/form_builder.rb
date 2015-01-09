@@ -9,14 +9,11 @@ class ComfortableMexicanSofa::FormBuilder < BootstrapForm::FormBuilder
     content     = ''
     fieldname   = field_name_for(tag)
     case method
-    when :file_field_tag
-      name = "#{fieldname}[blocks_attributes][#{index}][content]"
-
-      content << @template.hidden_field_tag(name, tag.serialize_content)
-      content << @template.render(:partial => 'comfy/admin/cms/files/page_form', :object => tag.block, :locals => { :fieldname => name })
-    else
-      options[:class] = ' form-control'
-      content << @template.send(method, "#{fieldname}[blocks_attributes][#{index}][content]", tag.content, options)
+      when :file_field_tag
+        content << @template.render(:partial => 'comfy/admin/cms/files/page_form', :object => tag.block, :locals => { :field_name => "#{fieldname}[blocks_attributes][#{index}][content]" })
+      else
+        options[:class] = ' form-control'
+        content << @template.send(method, "#{fieldname}[blocks_attributes][#{index}][content]", tag.content, options)
     end
     content << @template.hidden_field_tag("#{fieldname}[blocks_attributes][#{index}][identifier]", tag.identifier, :id => nil)
 

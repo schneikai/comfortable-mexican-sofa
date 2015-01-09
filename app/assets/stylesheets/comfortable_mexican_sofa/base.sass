@@ -300,10 +300,14 @@ body#comfy
       background: url(image-path("comfortable_mexican_sofa/icon_snippet.gif"))
 
   // -- Files ---------------------------------------------------------------
-  .cms-files-modal iframe
-    width: 100%
-    height: 100%
-    border: 0
+  .cms-files-modal
+    // Make sure the files modal is in front of any Tinymce editor windows
+    // because we use it as a custom file browser for the Tinymce editor.
+    z-index: 655350
+    iframe
+      width: 100%
+      height: 100%
+      border: 0
 
   &.c-comfy-admin-cms-files
     .file-image img
