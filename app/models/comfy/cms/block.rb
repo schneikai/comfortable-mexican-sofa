@@ -28,7 +28,7 @@ protected
   # to just select a file from the library. So we need to delete old uploaded
   # files here if the tag content was changed.
   def remove_existing_files
-    return unless self.tag.instance_of?(ComfortableMexicanSofa::Tag::PageFile)
+    return unless self.files.any? && self.tag.instance_of?(ComfortableMexicanSofa::Tag::PageFile)
     self.files.collect{ |f| f.mark_for_destruction } if self.tag.serialize_content != content
   end
 end
