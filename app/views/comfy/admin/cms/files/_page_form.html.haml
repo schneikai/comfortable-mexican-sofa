@@ -1,10 +1,8 @@
-- block ||= page_form
-
 .page-files
-  = hidden_field_tag field_name, block.tag.serialize_content
+  = hidden_field_tag field_name, tag.serialize_content
 
   / This serves as a template for new files.
-  .page-file{ id: "page_file_#{block.tag.identifier}", style: 'display: none;'}
+  .page-file{ id: "page_file_#{tag.identifier}", style: 'display: none;'}
     = link_to '#', target: '_blank', class: 'thumbnail' do
       = image_tag 'comfortable_mexican_sofa/icon_page.gif'
     .file-label file.label
@@ -12,9 +10,9 @@
     = link_to 'Change', '#', class: 'cms-files-open btn btn-default btn-xs', data: { mode: 'select', field_name: field_name, on_select: 'selectCmsPageFile' }
     = link_to 'Delete', '#', class: 'cms-page-file-delete btn btn-danger btn-xs', data: { field_name: field_name, ask: t('.are_you_sure', default: 'Are you sure?') }
 
-  - if (files = block.tag.content).present?
+  - if (files = tag.content).present?
     - (files.respond_to?(:each) ? files : [files]).each do |file|
-      - id = "page_file_#{block.tag.identifier}_#{file.id}"
+      - id = "page_file_#{tag.identifier}_#{file.id}"
       .page-file{id: id}
         = link_to file.file.url, target: '_blank', class: 'thumbnail' do
           - if file.is_image?

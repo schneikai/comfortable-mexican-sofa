@@ -10,7 +10,7 @@ class ComfortableMexicanSofa::FormBuilder < BootstrapForm::FormBuilder
     fieldname   = field_name_for(tag)
     case method
       when :file_field_tag
-        content << @template.render(:partial => 'comfy/admin/cms/files/page_form', :object => tag.block, :locals => { :field_name => "#{fieldname}[blocks_attributes][#{index}][content]" })
+        content << @template.render(:partial => 'comfy/admin/cms/files/page_form', :locals => { :block => tag.block, :tag => tag, :field_name => "#{fieldname}[blocks_attributes][#{index}][content]" })
       else
         options[:class] = ' form-control'
         content << @template.send(method, "#{fieldname}[blocks_attributes][#{index}][content]", tag.content, options)
