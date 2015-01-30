@@ -5,7 +5,7 @@ class Comfy::Cms::File < ActiveRecord::Base
 
   cms_is_categorized
 
-  attr_accessor :dimensions
+  attr_accessor :dimensions, :tags
 
   has_attached_file :file, ComfortableMexicanSofa.config.upload_file_options.merge(
     # dimensions accessor needs to be set before file assignment for this to work
@@ -37,6 +37,7 @@ class Comfy::Cms::File < ActiveRecord::Base
   before_create :assign_position
   after_save    :reload_blockable_cache
   after_destroy :reload_blockable_cache
+  before_save   :clear_content_cache
 
   # -- Scopes ---------------------------------------------------------------
   scope :not_page_file, -> { where(:block_id => nil)}
@@ -48,6 +49,35 @@ class Comfy::Cms::File < ActiveRecord::Base
     IMAGE_MIMETYPES.include?(file_content_type)
   end
 
+  # Returns the file as a stream.
+  def stream
+    open(file.path) { |f| f.read }
+  end
+
+  # Returns the file content with all cms tags processed.
+  def render
+    @tags = []
+    ComfortableMexicanSofa::Tag.process_content(
+      self, ComfortableMexicanSofa::Tag.sanitize_irb(stream)
+    )
+  end
+
+  # Cached content accessor
+  def content_cache
+    if (@content_cache = read_attribute(:content_cache)).nil?
+      @content_cache = self.render
+      update_column(:content_cache, @content_cache) unless self.new_record?
+    end
+    @content_cache
+  end
+
+  def clear_content_cache!
+    self.update_column(:content_cache, nil)
+  end
+
+  def clear_content_cache
+    write_attribute(:content_cache, nil) if self.has_attribute?(:content_cache)
+  end
 
 protected
 

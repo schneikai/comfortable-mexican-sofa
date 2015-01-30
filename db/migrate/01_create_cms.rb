@@ -105,6 +105,7 @@ class CreateCms < ActiveRecord::Migration
       t.integer :file_file_size,    :null => false
       t.string  :description,       :limit => 2048
       t.integer :position,          :null => false, :default => 0
+      t.text    :content_cache,     text_limit
       t.timestamps
     end
     add_index :comfy_cms_files, [:site_id, :label]

@@ -55,4 +55,15 @@ class Comfy::Cms::AssetsControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  def test_render_css_file
+    layout = comfy_cms_layouts(:default)
+
+    Paperclip::Attachment.any_instance.stubs(:path).
+      returns(File.join(Rails.root, 'test/fixtures/files/file.css'))
+
+    get :render_css, :site_id => comfy_cms_sites(:default), :identifier => 'file.css'.parameterize, :cache_buster => layout.cache_buster
+    assert_response :success
+    assert_match 'text/css', response.content_type
+    assert_equal ".foo { color: red; }\n", response.body
+  end
 end
