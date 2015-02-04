@@ -18,7 +18,7 @@ window.CMS.files = ->
   # Remove a page file.
   $(document).on 'click', '.cms-page-file-delete', (e) ->
     if confirm $(this).data('ask')
-      $("input[name='" + $(this).data('fieldName') + "']").val('')
+      $("input[name='" + $(this).data('fieldName') + "']").val('').trigger('change')
 
       $(this).closest('.page-file').fadeOut 'slow', ->
         $(this).parent().find('.cms-files-open').show()
@@ -34,7 +34,7 @@ window.selectCmsPageFile = (file, options) ->
   field = $('input[name="' + options.fieldName + '"]')
   fileList = $('.page-files[data-page-files-for="' + options.fieldName + '"]')
 
-  field.val(file.fileId)
+  field.val(file.fileId).trigger('change')
 
   entry = fileList.find('.page-file').first().clone()
   entry.attr('id', entry.attr('id') + '_' + file.fileId)
@@ -50,13 +50,6 @@ window.selectCmsPageFile = (file, options) ->
     fileList.append entry.fadeIn('slow')
 
   fileList.find('> .cms-files-open').hide()
-
-
-# This method is called when a file was selected via the TinyMCE file browser.
-# file: fileId, fileLabel, fileUrl, file_thumbnail, fileIsImage
-# options: a hash with options from the files library open method
-window.selectCmsTinymceFile = (file, options) ->
-  $('input#' + options.fieldId).val(file.fileUrl)
 
 
 # When the files library is opened in a modal window we need to remove the
