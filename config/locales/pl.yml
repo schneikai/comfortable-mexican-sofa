@@ -220,9 +220,16 @@ pl:
             create: Wrzuć plik
             cancel: Anulować
             update: Uaktualnij plik
-          page_form:
-            are_you_sure: Jesteś pewien?
           file:
+            are_you_sure: Jesteś pewien?
+
+        tags:
+          page_file:
+            are_you_sure: Jesteś pewien?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Usuń
             are_you_sure: Jesteś pewien?
 
         categories:

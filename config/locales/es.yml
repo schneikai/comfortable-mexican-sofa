@@ -220,9 +220,16 @@ es:
             create: Subir Archivo
             cancel: Cancelar
             update: Actualizar Archivo
-          page_form:
-            are_you_sure: ¿Estás seguro?
           file:
+            are_you_sure: ¿Estás seguro?
+
+        tags:
+          page_file:
+            are_you_sure: ¿Estás seguro?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Borrar
             are_you_sure: ¿Estás seguro?
 
         categories:

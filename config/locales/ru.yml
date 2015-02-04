@@ -222,9 +222,16 @@ ru:
             create: Загрузить файл
             cancel: Oтменить
             update: Обновить файл
-          page_form:
-            are_you_sure: Вы уверены?
           file:
+            are_you_sure: Вы уверены?
+
+        tags:
+          page_file:
+            are_you_sure: Вы уверены?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Удалить
             are_you_sure: Вы уверены?
 
         categories:

@@ -220,9 +220,16 @@ fr:
             create: Envoyer
             cancel: Annuler
             update: Modifier le fichier
-          page_form:
-            are_you_sure: Êtes-vous sûr de vouloir supprimer ce fichier ?
           file:
+            are_you_sure: Êtes-vous sûr de vouloir supprimer ce fichier ?
+
+        tags:
+          page_file:
+            are_you_sure: Êtes-vous sûr de vouloir supprimer ce fichier ?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Supprimer
             are_you_sure: Êtes-vous sûr de vouloir supprimer ce fichier ?
 
         categories:

@@ -220,9 +220,16 @@ cs:
             create: Nahrát soubor
             cancel: Zrušit
             update: Upravit soubor
-          page_form:
-            are_you_sure: Určitě?
           file:
+            are_you_sure: Určitě?
+
+        tags:
+          page_file:
+            are_you_sure: Určitě?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Smazat
             are_you_sure: Určitě?
 
         categories:

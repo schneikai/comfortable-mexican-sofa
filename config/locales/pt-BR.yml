@@ -220,9 +220,16 @@ pt-BR:
             create: Enviar Arquivo
             cancel: Cancelar
             update: Atualizar Arquivo
-          page_form:
-            are_you_sure: Tem certeza?
           file:
+            are_you_sure: Tem certeza?
+
+        tags:
+          page_file:
+            are_you_sure: Tem certeza?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Excluir
             are_you_sure: Tem certeza?
 
         categories:

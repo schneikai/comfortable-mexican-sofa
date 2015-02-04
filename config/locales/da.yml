@@ -220,9 +220,16 @@ da:
             create: Send fil
             cancel: Annuller
             update: Opdater fil
-          page_form:
-            are_you_sure: Er du sikker?
           file:
+            are_you_sure: Er du sikker?
+
+        tags:
+          page_file:
+            are_you_sure: Er du sikker?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Slet
             are_you_sure: Er du sikker?
 
         categories:

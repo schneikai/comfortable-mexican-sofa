@@ -220,9 +220,16 @@ zh-TW:
             create: 上傳文件
             cancel: Cancel
             update: 更新文件
-          page_form:
-            are_you_sure: 確定刪除該文件嗎？
           file:
+            are_you_sure: 確定刪除該文件嗎？
+
+        tags:
+          page_file:
+            are_you_sure: 確定刪除該文件嗎？
+          page_file_library:
+            select: Select
+            change: Change
+            delete: 刪除
             are_you_sure: 確定刪除該文件嗎？
 
         categories:

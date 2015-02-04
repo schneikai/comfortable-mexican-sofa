@@ -220,9 +220,16 @@ nl:
             create: Upload Bestand
             cancel: Annuleren
             update: Update Bestand
-          page_form:
-            are_you_sure: Weet u het zeker?
           file:
+            are_you_sure: Weet u het zeker?
+
+        tags:
+          page_file:
+            are_you_sure: Weet u het zeker?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Verwijder
             are_you_sure: Weet u het zeker?
 
         categories:

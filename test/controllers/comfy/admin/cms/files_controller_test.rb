@@ -37,37 +37,16 @@ class Comfy::Admin::Cms::FilesControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:files).count
   end
 
-  def test_get_index_with_redactor_images
+  def test_get_index_with_images
+    get :index, :site_id => @site, :type => 'image'
+    assert_response :success
+    assert_equal 1, assigns(:files).count
+
     file = comfy_cms_files(:default)
-
-    get :index, :site_id => @site, :source => 'redactor', :type => 'image'
+    file.update_column(:file_content_type, 'text/css')
+    get :index, :site_id => @site, :type => 'image'
     assert_response :success
-
-    assert_equal [{
-      'thumb' => file.file.url(:cms_thumb),
-      'image' => file.file.url,
-      'title' => file.label
-    }], JSON.parse(response.body)
-  end
-
-  def test_get_index_with_redactor_files
-    file1 = comfy_cms_files(:default)
-    file2 = comfy_cms_files(:css)
-
-    get :index, :site_id => @site, :source => 'redactor', :type => 'file'
-    assert_response :success
-
-    assert_equal [{
-      'title' => file1.label,
-      'name'  => file1.file_file_name,
-      'link'  => file1.file.url,
-      'size'  => '19.6 KB'
-    }, {
-      'title' => file2.label,
-      'name'  => file2.file_file_name,
-      'link'  => file2.file.url,
-      'size'  => '4.71 KB'
-    }], JSON.parse(response.body)
+    assert_equal 0, assigns(:files).count
   end
 
   def test_get_new
@@ -137,29 +116,6 @@ class Comfy::Admin::Cms::FilesControllerTest < ActionController::TestCase
   def test_create_as_plupload_failure
     assert_no_difference 'Comfy::Cms::File.count' do
       post :create, :source => 'plupload', :site_id => @site, :file => { }
-      assert_response :unprocessable_entity
-    end
-  end
-
-  def test_create_as_redactor
-    assert_difference 'Comfy::Cms::File.count' do
-      post :create,
-        :source   => 'redactor',
-        :site_id  => @site,
-        :file     => fixture_file_upload('files/image.jpg', 'image/jpeg')
-      assert_response :success
-
-      file = Comfy::Cms::File.last
-      assert_equal ({
-        'filelink' => file.file.url,
-        'filename' => file.label
-      }), JSON.parse(response.body)
-    end
-  end
-
-  def test_create_as_redactor_failure
-    assert_no_difference 'Comfy::Cms::File.count' do
-      post :create, :source => 'redactor', :site_id => @site, :file => { }
       assert_response :unprocessable_entity
     end
   end

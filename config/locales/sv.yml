@@ -208,7 +208,7 @@ sv:
             title: Filer
             new_link: Ladda upp en ny fil
             edit: Ända
-            delete: Delete
+            delete: Ta bort
             are_you_sure: Är du säker?
             button: Ladda upp filer
           new:
@@ -220,9 +220,16 @@ sv:
             create: Ladda upp fil
             cancel: Avbryt
             update: Uppdatera fil
-          page_form:
-            are_you_sure: Är du säker?
           file:
+            are_you_sure: Är du säker?
+
+        tags:
+          page_file:
+            are_you_sure: Är du säker?
+          page_file_library:
+            select: Select
+            change: Change
+            delete: Ta bort
             are_you_sure: Är du säker?
 
         categories:
