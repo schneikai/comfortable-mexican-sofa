@@ -52,7 +52,7 @@ window.CMS.wysiwyg = ->
     minHeight:        160
     autoresize:       true
     buttonSource:     true
-    formattingTags:   ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+    formatting:       ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
     plugins:          ['comfyImagemanager', 'comfyFilemanager', 'table', 'video', 'definedlinks']
     lang:             CMS.locale
     definedLinks:     "#{CMS.pages_path}?source=redactor"
