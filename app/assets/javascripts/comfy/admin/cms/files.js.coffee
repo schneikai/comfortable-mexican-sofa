@@ -18,7 +18,7 @@ window.CMS.files = ->
   # Remove a page file.
   $(document).on 'click', '.cms-page-file-delete', (e) ->
     if confirm $(this).data('ask')
-      $("input[name='" + $(this).data('fieldName') + "']").val('')
+      $("input[name='" + $(this).data('fieldName') + "']").val('').trigger('change')
 
       $(this).closest('.page-file').fadeOut 'slow', ->
         $(this).parent().find('.cms-files-open').show()
@@ -34,7 +34,7 @@ window.selectCmsPageFile = (file, options) ->
   field = $('input[name="' + options.fieldName + '"]')
   fileList = $('.page-files[data-page-files-for="' + options.fieldName + '"]')
 
-  field.val(file.fileId)
+  field.val(file.fileId).trigger('change')
 
   entry = fileList.find('.page-file').first().clone()
   entry.attr('id', entry.attr('id') + '_' + file.fileId)
