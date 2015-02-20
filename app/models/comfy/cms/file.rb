@@ -53,7 +53,9 @@ class Comfy::Cms::File < ActiveRecord::Base
 
   # Returns the file as a stream.
   def stream
-    open(file.path) { |f| f.read }
+    open(file.url) { |f| f.read }
+  rescue
+    raise ActiveRecord::RecordNotFound, "Couldn't find attached file in #{file.url} for #{self.class.name} with id=#{id}"
   end
 
   # Returns the file content with all cms tags processed.
