@@ -53,7 +53,11 @@ class Comfy::Cms::File < ActiveRecord::Base
 
   # Returns the file as a stream.
   def stream
-    open(file.url) { |f| f.read }
+    # If *file.url* returns a relative url that means that the file is stored
+    # on the local file system and we need to use *file.path* which returns a
+    # absolute path to open the file.
+    location = (file.url =~ /^[\w]*:\/\//).nil? ? file.path : file.url
+    open(location) { |f| f.read }
   rescue
     raise ActiveRecord::RecordNotFound, "Couldn't find attached file in #{file.url} for #{self.class.name} with id=#{id}"
   end
