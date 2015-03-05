@@ -56,7 +56,7 @@ window.CMS.wysiwyg = ->
     plugins:          ['comfyImagemanager', 'comfyFilemanager', 'table', 'video', 'definedlinks']
     lang:             CMS.locale
     definedLinks:     "#{CMS.pages_path}?source=redactor"
-
+    convertDivs:      false
 
 window.CMS.codemirror = ->
   $('textarea[data-cms-cm-mode]').each (i, element) ->
