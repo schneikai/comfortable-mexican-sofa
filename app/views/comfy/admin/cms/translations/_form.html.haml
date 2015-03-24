@@ -7,6 +7,8 @@
 
 = render 'comfy/admin/cms/partials/page_form_before', :object => form
 
+= form.text_field :label, :data => {:slugify => @translation.new_record?}
+
 = form.select :locale, [[t('.select_locale', language: @site.locale), nil]] + ComfortableMexicanSofa.config.locales.to_a.collect{|l| [l[1], l[0]]}
 
 - unless @translation.translateable.root?

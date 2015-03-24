@@ -72,6 +72,7 @@ class CreateCms < ActiveRecord::Migration
       t.references :translateable, :polymorphic => true
       t.string  :locale,           :null => false
       t.integer :target_page_id
+      t.string  :label
       t.string  :slug
       t.string  :full_path,       :null => false
       t.text    :content_cache,   text_limit
