@@ -57,6 +57,13 @@ module ComfortableMexicanSofa::CmsManageable
       end
     end
 
+    # Returns content of a block by the given identifier.
+    def block_content(identifier)
+      blocks_attributes.select{ |hash| hash[:identifier] == identifier}.first[:content]
+    rescue
+      nil
+    end
+
     # Processing content will return rendered content and will populate
     # self.cms_tags with instances of CmsTag
     def render
