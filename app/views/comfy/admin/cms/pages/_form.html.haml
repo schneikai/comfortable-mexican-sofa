@@ -10,7 +10,7 @@
 = form.text_field :label, :data => {:slugify => @page.new_record?}
 
 - if @page.parent.present?
-  = form.text_field :slug, :data => {:slug => true}, :prepend => @page.parent.full_path
+  = form.text_field :slug, :data => {:slug => true}, :prepend => "#{@page.parent.full_path}/".gsub(/\/\/$/, '/')
 
 - if (options = ::Comfy::Cms::Layout.options_for_select(@site)).present?
   = form.select :layout_id, options, {}, 'data-url' => form_blocks_comfy_admin_cms_site_page_path(@site, @page.id.to_i)
