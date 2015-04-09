@@ -149,7 +149,7 @@ window.CMS.update_preview = ->
   $('input[name=commit]').click ->
     $(this).parents('form').attr('target', '')
   $('input[name=preview]').click ->
-    $(this).parents('form').attr('target', '_blank')
+    $(this).parents('form').attr('target', 'comfy-cms-preview')
 
 
 window.CMS.live_preview = ->
