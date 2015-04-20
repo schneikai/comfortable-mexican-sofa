@@ -59,52 +59,15 @@ class Comfy::Cms::Page < ActiveRecord::Base
     self.parent_id.blank? ? 'index' : self.full_path[1..-1].slugify
   end
 
-  # Finds a page by its path or its translated path.
-  # Tries to load translation if locale is specified.
-  # Returns only published pages and translations by default.
-  # Returns *nil* if no page was found.
+  # Find a page for the given path.
+  # If a locale is given in the options it must be the same as the site locale.
+  # If not it tries to find a translation with the given locale for the given path.
+  # If a translation is found it will return the translation instead of the page.
+  # Translation objects acts just like a page object but with translated content.
+  # Returns *nil* if no page or translation was found.
   #
   #   @cms_site.pages.find_page('/')
   #   @cms_site.pages.find_page('/', locale: :de, published: true)
-  #
-  # def self.find_page(path, options={})
-  #   options = { locale: nil, published: true }.merge(options)
-
-  #   page = where(full_path: path)
-  #   page = page.where(is_published: true) if options[:published]
-  #   page = page.first
-
-  #   # If the page was not found try to find it via its translated paths.
-  #   # It will only return published translations if the published option is *true*.
-  #   # If a translation is found it won't check if the page itself is published though.
-  #   # That way you can fetch translated pages even if the default language page is
-  #   # not yet published.
-  #   if page.nil? && options[:locale]
-  #     translation = reflect_on_association(:translations).klass.where(full_path: path, locale: options[:locale])
-  #     translation = translation.where(is_published: true) if options[:published]
-  #     page = translation.first.try(:translateable)
-  #   end
-
-  #   # Try to translate the page.
-  #   # If a translation is found it is saved on the *translation* attribute.
-  #   # Methods like <tt>content_cache</tt> or <tt>target_page</tt> will then load
-  #   # content from that translation instead of from the page.
-  #   # It will only return published translations if the published option is *true*.
-  #   if page && options[:locale] && options[:locale].to_s != page.site.locale
-  #     translation = page.translations.where(locale: options[:locale])
-  #     translation = translation.where(is_published: true) if options[:published]
-  #     page.translation = translation.first
-  #   end
-
-  #   page
-  # end
-
-  # TODO CMS: New method that returns only pages or translations for the exact
-  # locale if a locale is given.
-  # Find a page for the given path.
-  # If a locale is given in the options the page locale (that is the page site
-  # locale in that case) must match. If no page is found it will try to find a
-  # translation matching the given path and locale.
   def self.find_page(path, options={})
     options = { locale: nil, published: true }.merge(options)
 
@@ -114,7 +77,6 @@ class Comfy::Cms::Page < ActiveRecord::Base
     page = page.first
 
     # If no page was found try to find one via translation.
-    # Translation objects act just like page objects so we just return the translation object here as a page.
     if page.nil? && options[:locale].present?
       page = reflect_on_association(:translations).klass.where(full_path: path, locale: options[:locale])
       page = page.where(is_published: true) if options[:published]
@@ -131,22 +93,6 @@ class Comfy::Cms::Page < ActiveRecord::Base
     raise ActiveRecord::RecordNotFound unless page
     page
   end
-
-  # TODO CMS: Removed because we just return the translation object in find_page now.
-  # I did this because I use block_content resp. cms_block_content a lot and
-  # this would alos need to return translated content which it won't when accessd
-  # via the page object.
-  # # Will return translated content cache if translation is available. Otherwise
-  # # original content cache.
-  # def content_cache
-  #   translation ? translation.content_cache : super
-  # end
-
-  # # Will return translated target page if translation is available. Otherwise
-  # # original target page.
-  # def target_page
-  #   translation ? translation.target_page : super
-  # end
 
 protected
 
