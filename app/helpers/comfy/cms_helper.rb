@@ -1,4 +1,26 @@
 module Comfy::CmsHelper
+  # To include CSS files from the library use this helper method in your Rails view.
+  # It works just like the *stylesheet_link_tag* helper method.
+  #
+  #   comfy_stylesheet_link_tag 'styles.css'
+  #
+  def comfy_stylesheet_link_tag(site=@cms_site, filename)
+    # Get the file so we can add the cache buster to the link.
+    file = site.files.find_by_file_file_name!(filename)
+    stylesheet_link_tag comfy_cms_render_css_path(site.id, filename.parameterize, file.cache_buster)
+  end
+
+  # To include Javascript files from the library use this helper method in your Rails view.
+  # It works just like the *javascript_include_tag* helper method.
+  #
+  #   comfy_javascript_include_tag 'script.js'
+  #
+  def comfy_javascript_include_tag(site=@cms_site, filename)
+    # Get the file so we can add the cache buster to the link.
+    file = site.files.find_by_file_file_name!(filename)
+    javascript_include_tag comfy_cms_render_js_path(site.id, filename.parameterize, file.cache_buster)
+  end
+
 
   # Wrapper around ComfortableMexicanSofa::FormBuilder
   def comfy_form_for(record, options = {}, &proc)

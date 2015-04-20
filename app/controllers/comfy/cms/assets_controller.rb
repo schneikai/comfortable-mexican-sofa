@@ -21,12 +21,10 @@ class Comfy::Cms::AssetsController < Comfy::Cms::BaseController
     # The asset is specified via <tt>params[:identifier]</tt>.
     # It can be either a identifier for a layout from which we then load css or js
     # or it can be a file name. Remember that because Rails does not support
-    # dots in url id secments the file name contains hypens instead of dots.
+    # dots in url id segments the file name contains hypens instead of dots.
     def load_asset
       unless @cms_layout = @cms_site.layouts.find_by_identifier(params[:identifier])
-        # TODO: We should add a slug to files so this can be changed
-        # to +find_by_file_file_name+!
-        unless @cms_file = @cms_site.files.detect{|f| f.file_file_name.parameterize == params[:identifier]}
+        unless @cms_file = @cms_site.files.find_by_slug(params[:identifier])
           render :nothing => true, :status => 404
         end
       end

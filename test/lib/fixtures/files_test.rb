@@ -16,13 +16,8 @@ class FixtureFilesTest < ActiveSupport::TestCase
       ComfortableMexicanSofa::Fixture::File::Importer.new('sample-site', 'default-site').import!
       assert file = Comfy::Cms::File.last
 
-<<<<<<< HEAD
-      assert_equal 'Fixture File',       file.label
-      assert_equal 'sample.jpg',           file.file_file_name
-=======
       assert_equal 'Fixture File',        file.label
       assert_equal 'sample.jpg',          file.file_file_name
->>>>>>> master
       assert_equal 'Fixture Description', file.description
 
       assert_equal 2, file.categories.count
@@ -76,7 +71,7 @@ class FixtureFilesTest < ActiveSupport::TestCase
     old_file = comfy_cms_files(:default)
     old_file.update_column(:file_file_name, 'old')
 
-    assert_no_difference 'Comfy::Cms::File.count' do
+    assert_difference 'Comfy::Cms::File.count', -1 do
       ComfortableMexicanSofa::Fixture::File::Importer.new('sample-site', 'default-site').import!
       assert file = Comfy::Cms::File.last
       assert_equal 'sample.jpg',          file.file_file_name
@@ -102,6 +97,7 @@ class FixtureFilesTest < ActiveSupport::TestCase
     assert File.exists?(file_path)
     assert_equal ({
       'label'       => 'Default File',
+      'slug'        => 'sample-jpg',
       'description' => 'Default Description',
       'categories'  => ['Default'],
       'page'        => '/',

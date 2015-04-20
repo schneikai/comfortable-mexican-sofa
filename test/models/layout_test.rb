@@ -138,8 +138,8 @@ class CmsLayoutTest < ActiveSupport::TestCase
 
   def test_cache_buster
     timestamp = Time.current
-    layout = comfy_cms_sites(:default).layouts.create(updated_at: timestamp)
+    file = comfy_cms_sites(:default).files.create(updated_at: timestamp)
 
-    assert_equal timestamp.to_i, layout.cache_buster
+    assert_equal timestamp.to_i, file.cache_buster
   end
 end

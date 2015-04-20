@@ -16,6 +16,7 @@ module ComfortableMexicanSofa::Fixture::File
             end
 
             file.label        = attrs['label']
+            file.slug         = attrs['slug']
             file.description  = attrs['description']
             categories        = attrs['categories']
             file.block        = block
@@ -57,6 +58,7 @@ module ComfortableMexicanSofa::Fixture::File
         open(::File.join(self.path, "_#{file.file_file_name}.yml"), 'w') do |f|
           f.write({
             'label'       => file.label,
+            'slug'        => file.slug,
             'description' => file.description,
             'categories'  => file.categories.map{|c| c.label},
             'page'        => page.present?? page.full_path : nil,
