@@ -34,6 +34,7 @@ class Comfy::Cms::File < ActiveRecord::Base
 
   # -- Callbacks ------------------------------------------------------------
   before_save   :assign_label
+  before_save   :assign_slug
   before_create :assign_position
   after_save    :reload_blockable_cache
   after_destroy :reload_blockable_cache
@@ -85,10 +86,18 @@ class Comfy::Cms::File < ActiveRecord::Base
     write_attribute(:content_cache, nil) if self.has_attribute?(:content_cache)
   end
 
+  def cache_buster
+    updated_at.to_i
+  end
+
 protected
 
   def assign_label
     self.label = self.label.blank?? self.file_file_name.gsub(/\.[^\.]*?$/, '').titleize : self.label
+  end
+
+  def assign_slug
+    self.slug = self.file_file_name.parameterize
   end
 
   def assign_position

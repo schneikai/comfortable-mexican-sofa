@@ -97,6 +97,7 @@ class FixtureFilesTest < ActiveSupport::TestCase
     assert File.exists?(file_path)
     assert_equal ({
       'label'       => 'Default File',
+      'slug'        => 'sample-jpg',
       'description' => 'Default Description',
       'categories'  => ['Default'],
       'page'        => '/',

@@ -42,6 +42,7 @@ class CmsFileTest < ActiveSupport::TestCase
         :file => upload
       )
       assert_equal 'Image', file.label
+      assert_equal 'image-jpg', file.slug
       assert_equal 'image.jpg', file.file_file_name
       assert_equal 'image/jpeg', file.file_content_type
       assert_equal upload.size, file.file_file_size
@@ -58,6 +59,7 @@ class CmsFileTest < ActiveSupport::TestCase
         :file       => upload
       )
       assert_equal 'Image', file.label
+      assert_equal 'image-jpg', file.slug
       assert_equal 'image.jpg', file.file_file_name
       assert_equal 'image/jpeg', file.file_content_type
       # assert file.file_file_size < upload.size
@@ -71,6 +73,7 @@ class CmsFileTest < ActiveSupport::TestCase
         :file => fixture_file_upload('files/data.zip', 'application/zip')
       )
       assert_equal 'Data', file.label
+      assert_equal 'data-zip', file.slug
       assert_equal 'data.zip', file.file_file_name
       assert_equal 'application/zip', file.file_content_type
     end
@@ -145,6 +148,13 @@ class CmsFileTest < ActiveSupport::TestCase
 
     file.save!
     refute_equal old_content, file.content_cache
+  end
+
+  def test_cache_buster
+    timestamp = Time.current
+    layout = comfy_cms_sites(:default).layouts.create(updated_at: timestamp)
+
+    assert_equal timestamp.to_i, layout.cache_buster
   end
 
 end

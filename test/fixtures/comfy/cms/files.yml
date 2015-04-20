@@ -2,6 +2,7 @@ default:
   site: default
   block:
   label: Default File
+  slug:  sample-jpg
   file_file_name: sample.jpg
   file_content_type: image/jpeg
   file_file_size: 20099
@@ -12,6 +13,7 @@ css:
   site: default
   block:
   label: CSS File
+  slug: file-css
   file_file_name: file.css
   file_content_type: text/css
   file_file_size: 4826

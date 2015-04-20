@@ -17,6 +17,16 @@ class ViewMethodsTest < ActionView::TestCase
     comfy_cms_blocks(:default_page_text).update_column(:content, 'default_page_text_content')
   end
 
+  def test_comfy_stylesheet_link_tag
+    file = comfy_cms_files(:css)
+    assert_equal "<link href=\"/cms-css/#{@cms_site.id}/#{file.slug}/#{file.cache_buster}.css\" media=\"screen\" rel=\"stylesheet\" />", comfy_stylesheet_link_tag(file.file_file_name)
+  end
+
+  def test_comfy_javascript_include_tag
+    file = comfy_cms_files(:css)
+    assert_equal "<script src=\"/cms-js/#{@cms_site.id}/#{file.slug}/#{file.cache_buster}.js\"></script>", comfy_javascript_include_tag(file.file_file_name)
+  end
+
   def test_cms_block_content
     assert_equal 'default_page_text_content', cms_block_content(:default_page_text)
     assert_equal 'default_page_text_content', cms_block_content(:default_page_text, @cms_page)
