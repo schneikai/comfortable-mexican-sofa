@@ -16,8 +16,13 @@ class FixtureFilesTest < ActiveSupport::TestCase
       ComfortableMexicanSofa::Fixture::File::Importer.new('sample-site', 'default-site').import!
       assert file = Comfy::Cms::File.last
 
+<<<<<<< HEAD
       assert_equal 'Fixture File',       file.label
       assert_equal 'sample.jpg',           file.file_file_name
+=======
+      assert_equal 'Fixture File',        file.label
+      assert_equal 'sample.jpg',          file.file_file_name
+>>>>>>> master
       assert_equal 'Fixture Description', file.description
 
       assert_equal 2, file.categories.count
@@ -28,15 +33,15 @@ class FixtureFilesTest < ActiveSupport::TestCase
   def test_update
     file = comfy_cms_files(:default)
     file.update_column(:updated_at, 10.years.ago)
-    assert_equal 'sample.jpg',           file.file_file_name
+    assert_equal 'sample.jpg',          file.file_file_name
     assert_equal 'Default File',        file.label
     assert_equal 'Default Description', file.description
 
     assert_no_difference 'Comfy::Cms::Snippet.count' do
       ComfortableMexicanSofa::Fixture::File::Importer.new('sample-site', 'default-site').import!
       file.reload
-      assert_equal 'sample.jpg',           file.file_file_name
-      assert_equal 'Fixture File',       file.label
+      assert_equal 'sample.jpg',          file.file_file_name
+      assert_equal 'Fixture File',        file.label
       assert_equal 'Fixture Description', file.description
     end
   end
@@ -71,7 +76,7 @@ class FixtureFilesTest < ActiveSupport::TestCase
     old_file = comfy_cms_files(:default)
     old_file.update_column(:file_file_name, 'old')
 
-    assert_difference 'Comfy::Cms::File.count', -1 do
+    assert_no_difference 'Comfy::Cms::File.count' do
       ComfortableMexicanSofa::Fixture::File::Importer.new('sample-site', 'default-site').import!
       assert file = Comfy::Cms::File.last
       assert_equal 'sample.jpg',          file.file_file_name
@@ -83,6 +88,8 @@ class FixtureFilesTest < ActiveSupport::TestCase
   end
 
   def test_export
+    comfy_cms_files(:default).update_column(:block_id, comfy_cms_blocks(:default_field_text))
+
     host_path = File.join(ComfortableMexicanSofa.config.fixtures_path, 'test-site')
     attr_path = File.join(host_path, 'files/_sample.jpg.yml')
     file_path = File.join(host_path, 'files/sample.jpg')
@@ -97,8 +104,8 @@ class FixtureFilesTest < ActiveSupport::TestCase
       'label'       => 'Default File',
       'description' => 'Default Description',
       'categories'  => ['Default'],
-      'page'        => nil,
-      'block'       => nil
+      'page'        => '/',
+      'block'       => 'default_field_text'
     }), YAML.load_file(attr_path)
 
     FileUtils.rm_rf(host_path)
