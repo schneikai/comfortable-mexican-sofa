@@ -68,6 +68,16 @@ class ComfortableMexicanSofa::Configuration
   # Default is nil (not used)
   attr_accessor :hostname_aliases
 
+  # Use this to setup different hostnames for different locales.
+  # This is used in translations to build full urls for pages.
+  # If no translated hostname is configured the site hostname is used which you
+  # can configure in the admin area.
+  # e.g. config.translated_hostnames = {:de => 'example.de', :es => 'example.es'}
+  # Default is nil (not used)
+  # TODO: This is just to make it work. Instead of a configuration setting
+  # It should be configurable via admin interface just like the hostname for sites.
+  attr_accessor :translated_hostnames
+
   # Reveal partials that can be overwritten in the admin area.
   # Default is false.
   attr_accessor :reveal_cms_partials
@@ -114,6 +124,7 @@ class ComfortableMexicanSofa::Configuration
     @allowed_helpers      = nil
     @allowed_partials     = nil
     @hostname_aliases     = nil
+    @translated_hostnames = nil
     @reveal_cms_partials  = false
     @public_cms_path      = nil
   end

@@ -17,6 +17,17 @@ class Comfy::Cms::Page::Translation < Comfy::Cms::Translation
     (translateable.parent && translateable.parent.translations.find_by_locale(locale)) || translateable.parent
   end
 
+  # We need to overwrite *url* because this uses the sites hostname to generate
+  # the url but we might have different hostnames for each language (aka locale).
+  def url(relative = false)
+    super(relative).gsub(/^\/\/#{self.site.hostname}\//, "//#{hostname}/")
+  end
+
+  # See notes on *translated_hostnames* in "lib/comfortable_mexican_sofa/configuration.rb"!
+  def hostname
+    (ComfortableMexicanSofa.config.translated_hostnames || {})[locale.to_sym] || self.site.hostname
+  end
+
   protected
     def assign_full_path
       return unless translateable
