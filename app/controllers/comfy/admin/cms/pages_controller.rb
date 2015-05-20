@@ -131,6 +131,13 @@ protected
       @cms_layout = @page.layout
       @cms_page   = @page
 
+      # Make sure to use the page site locale when rendering previews because it might
+      # be different from the admin locale.
+      # TODO CMS: Make sure you copy this to branches "add_translations" and
+      # "add-live-preview" branches when pull request on mster was accepted!
+      # https://github.com/comfy/comfortable-mexican-sofa/pull/647
+      I18n.locale = @cms_page.try(:locale) || @cms_site.locale
+
       # Chrome chokes on content with iframes. Issue #434
       response.headers['X-XSS-Protection'] = '0'
 
