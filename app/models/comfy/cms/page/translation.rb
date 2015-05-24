@@ -25,7 +25,8 @@ class Comfy::Cms::Page::Translation < Comfy::Cms::Translation
 
   # See notes on *translated_hostnames* in "lib/comfortable_mexican_sofa/configuration.rb"!
   def hostname
-    (ComfortableMexicanSofa.config.translated_hostnames || {})[locale.to_sym] || self.site.hostname
+    # Remember: *locale* might be empty for new models!
+    (ComfortableMexicanSofa.config.translated_hostnames || {})[locale.try(:to_sym)] || self.site.hostname
   end
 
   protected
