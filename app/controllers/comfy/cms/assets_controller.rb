@@ -23,11 +23,20 @@ class Comfy::Cms::AssetsController < Comfy::Cms::BaseController
     # or it can be a file name. Remember that because Rails does not support
     # dots in url id segments the file name contains hypens instead of dots.
     def load_asset
-      unless @cms_layout = @cms_site.layouts.find_by_identifier(params[:identifier])
+      if is_file?
         unless @cms_file = @cms_site.files.find_by_slug(params[:identifier])
           render :nothing => true, :status => 404
         end
+      else
+        unless @cms_layout = @cms_site.layouts.find_by_identifier(params[:identifier])
+          render :nothing => true, :status => 404
+        end
       end
+    end
+
+    # Checks if *params[:identifier]* is a file identifier.
+    def is_file?
+      params[:identifier].last(4) == '-css' || params[:identifier].last(3) == '-js'
     end
 
     # null_session avoids cookies and flash updates

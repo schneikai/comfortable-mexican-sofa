@@ -5,9 +5,7 @@ module Comfy::CmsHelper
   #   comfy_stylesheet_link_tag 'styles.css'
   #
   def comfy_stylesheet_link_tag(site=@cms_site, filename)
-    # Get the file so we can add the cache buster to the link.
-    file = site.files.find_by_file_file_name!(filename)
-    stylesheet_link_tag comfy_cms_render_css_path(site.id, filename.parameterize, file.cache_buster)
+    stylesheet_link_tag comfy_cms_render_css_path(site.id, filename.parameterize, comfy_file_cache_buster(site, filename))
   end
 
   # To include Javascript files from the library use this helper method in your Rails view.
@@ -16,11 +14,17 @@ module Comfy::CmsHelper
   #   comfy_javascript_include_tag 'script.js'
   #
   def comfy_javascript_include_tag(site=@cms_site, filename)
-    # Get the file so we can add the cache buster to the link.
-    file = site.files.find_by_file_file_name!(filename)
-    javascript_include_tag comfy_cms_render_js_path(site.id, filename.parameterize, file.cache_buster)
+    javascript_include_tag comfy_cms_render_js_path(site.id, filename.parameterize, comfy_file_cache_buster(site, filename))
   end
 
+  # Returns a cache buster for the give filename in the given site.
+  # Because this might be used heavily during page generation we added caching.
+  # The cache is delete when the underlying file changes.
+  def comfy_file_cache_buster(site, filename)
+    Rails.cache.fetch("comfy_file_cache_buster_#{filename.parameterize.underscore}") do
+      site.files.find_by_file_file_name!(filename).cache_buster
+    end
+  end
 
   # Wrapper around ComfortableMexicanSofa::FormBuilder
   def comfy_form_for(record, options = {}, &proc)

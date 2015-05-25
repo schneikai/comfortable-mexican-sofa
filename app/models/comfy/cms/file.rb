@@ -39,6 +39,7 @@ class Comfy::Cms::File < ActiveRecord::Base
   before_save   :assign_slug
   before_create :assign_position
   after_save    :reload_blockable_cache
+  after_save    :clear_cache_buster_cache
   after_destroy :reload_blockable_cache
   before_save   :clear_content_cache
 
@@ -118,6 +119,11 @@ protected
     return unless self.block
     b = self.block.blockable
     b.class.name.constantize.where(:id => b.id).update_all(:content_cache => nil)
+  end
+
+  # Removes cache buster caches used by Comfy::CmsHelper#comfy_file_cache_buster
+  def clear_cache_buster_cache
+    Rails.cache.delete "comfy_file_cache_buster_#{file_file_name.parameterize.underscore}"
   end
 
 end
