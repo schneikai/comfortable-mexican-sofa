@@ -28,6 +28,10 @@ Then from the Rails project's root run:
     rails generate comfy:cms
     rake db:migrate
 
+###***If you already have a schema and want to add translation ***
+    rails generate comfy:cms:translations
+    rake db:migrate
+
 Now take a look inside your `config/routes.rb` file. You'll see where routes attach for the admin area and content serving. Make sure that content serving route appears as a very last item.
 
 ```ruby
