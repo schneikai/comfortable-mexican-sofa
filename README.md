@@ -28,7 +28,7 @@ Then from the Rails project's root run:
     rails generate comfy:cms
     rake db:migrate
 
-##***If you already have a schema and want to add translation ***
+###***If you already have a schema and want to add translation ***
     rails generate comfy:cms:translations
     rake db:migrate
 
